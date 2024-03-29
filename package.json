@@ -1,0 +1,20 @@
+{
+  "name": "lead-generation",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "sass": "^1.72.0",
+    "vite": "^5.0.11",
+    "vite-plugin-monkey": "^3.5.1"
+  },
+  "dependencies": {
+    "js-cookie": "^3.0.5",
+    "pristinejs": "^1.1.0"
+  }
+}
