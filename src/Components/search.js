@@ -1,4 +1,4 @@
-import {debounce, deleteWhiteSpace} from './utils';
+import {debounce, deleteAllWhiteSpace} from './utils';
 import {getData} from "./api.js";
 import {API_URL_WHERE_TO_BUY} from "../main.js";
 import {LeadModule} from "./lead-list.js";
@@ -6,12 +6,8 @@ import {YandexMap} from "./yamaps.js";
 import {takeDataFromOffice} from "../main.js";
 
 export class Search extends HTMLElement {
-	constructor(API_data, options) {
+	constructor(API_data) {
 		super();
-		let defaultOptions = {
-      		isChanged: () => {}
-		}
-		this.options = Object.assign(defaultOptions, options);
 		this.classList.add('search');
 		this.data = API_data;
 		this.name = this.data.result.cityLookup[0].name;
@@ -30,7 +26,7 @@ export class Search extends HTMLElement {
                `;
 		}).join('');
 	}
-	
+
 	render() {
 		this.innerHTML = `
 			<div class="lead-generator-wrapper">
@@ -49,7 +45,7 @@ export class Search extends HTMLElement {
 			</div>    
     `;
 	}
-	
+
 
 	serch() {
 		const suggestionList = this.querySelector('.lead-generator-list ul');
@@ -83,19 +79,20 @@ export class Search extends HTMLElement {
 				suggestionList.closest('.lead-generator-list').classList.remove('js-show');
 			}
 		})
-		
-		document.querySelector('#lead-generation-app').addEventListener('click', (e)=> {
+
+		document.querySelector('#lead-generation-app').addEventListener('click', (e) => {
 			if (e.target.hasAttribute('data-id')) {
-				input.value = deleteWhiteSpace(e.target.textContent)
+				input.value = deleteAllWhiteSpace(e.target.textContent);
+				console.log(input.value)
 				this.new_id = e.target.getAttribute('data-id');
-				this.updateMapandLead(this.new_id);
+				this.updateMapAndLead(this.new_id);
 			}
 		})
 	}
-	
-	updateMapandLead() {
+
+	updateMapAndLead() {
 		if (this.new_id) {
-			getData(API_URL_WHERE_TO_BUY,{
+			getData(API_URL_WHERE_TO_BUY, {
 				departureId: this.new_id,
 			}).then((new_data) => {
 				document.querySelector(".search-result").replaceWith(new LeadModule(new_data))

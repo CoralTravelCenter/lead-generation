@@ -118,6 +118,12 @@ export class Form extends HTMLElement {
 			this.remove();
 			document.body.style.overflow = 'auto';
 		})
+		document.addEventListener('keydown', event => {
+			if (event.key === "Escape" || event.keyCode === 27) {
+				this.remove();
+				document.body.style.overflow = 'auto';
+			}
+		});
 	}
 
 	connectedCallback() {

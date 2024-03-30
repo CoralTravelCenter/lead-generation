@@ -5,26 +5,13 @@ import {LeadModule} from "./Components/lead-list.js";
 import {YandexMap} from "./Components/yamaps.js";
 import {Search} from "./Components/search.js";
 import {Form} from "./Components/form.js";
-import {deleteWhiteSpace} from "./Components/utils.js";
+import {jentelDeleteWhiteSpace} from "./Components/utils.js";
 
 export const API_URL_WHERE_TO_BUY = 'https://b2capi.coral.ru/Agency/ListWhereToBuy';
 export const API_URL_PACKAGE = 'https://b2capi.coral.ru/PackageTourHotelProduct/PriceSearchDecrypt';
 const searchParams = encodeURIComponent(new URLSearchParams(window.location.search).get('qp'));
 
 let serch_module, lead_module, yandex_module;
-
-function createAnchor() {
-	const anchor_link = document.querySelector('[name="selectButton"]');
-	const new_anchor_link = document.createElement('button');
-	new_anchor_link.className = 'anchor-to-lead-module';
-	new_anchor_link.textContent = 'Оставить заявку';
-	new_anchor_link.addEventListener('click', () => {
-		document.querySelector('#lead-generation-app').scrollIntoView(true);
-	})
-	if (anchor_link) anchor_link.replaceWith(new_anchor_link);
-}
-
-createAnchor()
 
 export const departure_JSON =
 	document.getElementById("__NEXT_DATA__").textContent;
@@ -38,6 +25,20 @@ export const active_departure_name = JSON.parse(
 		return dep;
 	}
 }).name;
+
+
+function createAnchor() {
+	const anchor_link = document.querySelector('[name="selectButton"]');
+	const new_anchor_link = document.createElement('button');
+	new_anchor_link.className = 'anchor-to-lead-module';
+	new_anchor_link.textContent = 'Оставить заявку';
+	new_anchor_link.addEventListener('click', () => {
+		document.querySelector('#lead-generation-app').scrollIntoView(true);
+	})
+	if (anchor_link) anchor_link.replaceWith(new_anchor_link);
+}
+
+createAnchor()
 
 const APP_WRAPPER = document.createElement("div");
 const H2 = document.createElement('h2');
@@ -58,14 +59,14 @@ export function takeDataFromOffice() {
 			phone = parent.querySelector("[data-office-phone]");
 			if (office) office_data.office = office.textContent;
 			if (addres)
-				office_data.addres = deleteWhiteSpace(addres.textContent);
-			if (email) office_data.email = deleteWhiteSpace(email.textContent);
-			if (phone) office_data.phone = deleteWhiteSpace(phone.textContent);
+				office_data.addres = jentelDeleteWhiteSpace(addres.textContent);
+			if (email) office_data.email = jentelDeleteWhiteSpace(email.textContent);
+			if (phone) office_data.phone = jentelDeleteWhiteSpace(phone.textContent);
 			office_data.id = parent.id;
 			getData(API_URL_PACKAGE, {
 				queryParam: searchParams,
 			}).then(data => {
-				document.body.append(new Form(office_data, data));
+				if (!document.querySelector('leed-form')) document.body.append(new Form(office_data, data));
 			})
 		});
 	});
@@ -105,6 +106,7 @@ getData(API_URL_WHERE_TO_BUY, {
 
 const footer = document.getElementById('footer-column');
 footer.children[0].children[0].style.display = 'none';
+
 
 
 

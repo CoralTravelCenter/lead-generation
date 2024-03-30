@@ -1,17 +1,24 @@
-.ant-space:has(.departure-contact-phone){
-	display:none
+.ant-space:has(.departure-contact-phone) {
+	display: none
 }
 
-.menu{
-	display:none!important
+.menu {
+	display: none !important
 }
 
-.ant-breadcrumb{
-	display:none
+.ant-breadcrumb {
+	display: none
 }
 
 div.news-slider-block {
 	display: none;
+}
+
+.header-mobile .left-group,
+.header-mobile .right-group {
+	opacity: 0;
+	pointer-events: none;
+	touch-action: none;
 }
 
 #hotelDetailSelectRoom,
@@ -555,8 +562,8 @@ thanks-block {
 	width: 100%;
 	height: 100%;
 	border-radius: 1em;
-	
-	
+
+
 	.thanks-wrapper {
 		display: flex;
 		justify-content: center;
@@ -565,12 +572,12 @@ thanks-block {
 		width: 100%;
 		height: 100%;
 		gap: 1em;
-		
+
 		h3 {
 			font-size: 2em;
 			margin: 0;
 		}
-		
+
 		p {
 			font-size: 1.2em;
 			margin: 0;
@@ -584,7 +591,7 @@ oops-block {
 	width: 100%;
 	height: 100%;
 	border-radius: 1em;
-	
+
 	.oops-wrapper {
 		display: flex;
 		justify-content: center;

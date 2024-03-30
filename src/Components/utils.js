@@ -9,6 +9,10 @@ export function debounce(callee, timeoutMs) {
 	}
 }
 
-export function deleteWhiteSpace(str) {
-	return str.replace(/\s+/g, '');
+export function jentelDeleteWhiteSpace(str) {
+	return str.replace(/^s+|s+$/g, '');
+}
+
+export function deleteAllWhiteSpace(str) {
+	return str.replaceAll(' ', '');
 }
