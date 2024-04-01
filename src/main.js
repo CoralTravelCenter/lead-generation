@@ -104,8 +104,7 @@ getData(API_URL_WHERE_TO_BUY, {
 	}
 });
 
-const footer = document.getElementById('footer-column');
-footer.children[0].children[0].style.display = 'none';
+
 
 
 

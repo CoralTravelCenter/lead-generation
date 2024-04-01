@@ -16,26 +16,6 @@ export async function getData(URL, body) {
 	}
 }
 
-//function yandexLoader(src) {
-//	return new Promise((resolve, reject) => {
-//		const script = document.createElement('script');
-//		script.src = src;
-//		script.async = true;
-//		script.onload = () => resolve(script);
-//		script.onerror = () => reject(new Error(`Ошибка загрузки скрипта: ${src}`));
-//		document.body.append(script);
-//	});
-//}
-//
-//// Использование функции:
-//yandexLoader('https://api-maps.yandex.ru/2.1.64/?apikey=49de5080-fb39-46f1-924b-dee5ddbad2f1&lang=ru-RU')
-//	.then(() => {
-//		console.log('Карта загружена');
-//	})
-//	.catch(error => {
-//		console.error(error.message);
-//	});
-
 export const sendFormData = async (formData, url1, url2) => {
 	try {
 		// Создаем массив промисов для отправки данных на оба адреса
@@ -60,6 +40,3 @@ export const sendFormData = async (formData, url1, url2) => {
 		throw error;
 	}
 };
-
-
-

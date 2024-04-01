@@ -21,6 +21,10 @@ div.news-slider-block {
 	touch-action: none;
 }
 
+#footer-column > div div:has(.number-section) {
+	display: none;
+}
+
 #hotelDetailSelectRoom,
 #hotelDetailReviews,
 #hotelDetailWeather {

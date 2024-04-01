@@ -1,5 +1,3 @@
-import {active_departure_id} from "../main.js";
-
 const map_init_props = {
 	zoom: 10,
 	controls: ['zoomControl'],
@@ -16,6 +14,7 @@ const map_options = {
 	suppressMapOpenBlock: true,
 	maxZoom: 18
 };
+
 
 export class YandexMap extends HTMLElement {
 	constructor(API_data) {
