@@ -124,6 +124,13 @@ export class Form extends HTMLElement {
 				document.body.style.overflow = 'auto';
 			}
 		});
+
+		document.body.addEventListener('click', (e) => {
+			if (!this.querySelector('.popin-container').contains(e.target)) {
+				this.remove();
+				document.body.style.overflow = 'auto';
+			}
+		})
 	}
 
 	connectedCallback() {

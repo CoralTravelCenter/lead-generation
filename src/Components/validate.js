@@ -1,4 +1,5 @@
 import Pristine from "pristinejs/dist/pristine";
+import {removeTabs} from "./utils.js";
 import {inputMask} from "./input-mask";
 import {sendFormData} from "./api.js";
 import {Thanks, Oops} from "./thanks.js";
@@ -36,10 +37,10 @@ export function formValidate(form, reservationType, id, link) {
 		if (isValide) {
 			const required_data = {
 				"AgencyLocalName": document.querySelector('.addressee-grid .office-name').textContent,
-				"AgencyEmail": document.querySelector('.addressee-grid .office-email').textContent,
-				"AgencyPhone": document.querySelector('.addressee-grid .office-phone').textContent,
-				"AgencyAddress": document.querySelector('.addressee-grid .office-address').textContent,
-				"AgencyEEId": id,
+				"AgencyEmail": removeTabs(document.querySelector('.addressee-grid .office-email').textContent),
+				"AgencyPhone": removeTabs(document.querySelector('.addressee-grid .office-phone').textContent),
+				"AgencyAddress": removeTabs(document.querySelector('.addressee-grid .office-address').textContent),
+				"AgencyEEId": parseInt(id, 10),
 				"FullName": form.querySelector('[name=fio]').value,
 				"CityDeparture": form.querySelector('[name=depart_from]').value,
 				"Country": form.querySelector('[name=destination_country]').value,
@@ -48,21 +49,16 @@ export function formValidate(form, reservationType, id, link) {
 				"CountPeoples": form.querySelector('[name=pax]').value,
 				"Comment": `${form.querySelector('[name=comments]').value}, Ссылка: ${link}`,
 				"IsConsent": true,
-				"Email": form.querySelector('[name=email]').value,
-				"Phone": form.querySelector('[name=phone]').value,
+				"Email": removeTabs(form.querySelector('[name=email]').value),
+				"Phone": removeTabs(form.querySelector('[name=phone]').value),
 				"TypeReservation": `${(reservationType === 1) ? 'package' : 'onlyhotel'}`,
 				"DesiredDepartureDate": form.querySelector('[name=tour_date]').value,
 				"SourceLead string": true
 			};
 
-			const formData = new FormData();
-			Object.entries(required_data).forEach(([key, value]) => {
-				formData.append(key, value);
-			});
+			console.log(required_data)
 
-			console.log(formData)
-
-			//            sendFormData(formData, url_1, url_2).then(()=> {
+			//            sendFormData(required_data, url_1, url_2).then(()=> {
 			//                document.querySelector('leed-form').style.display = 'none';
 			//                document.getElementById('lead-generation-app').append(new Thanks())
 			//            }).catch(err => {

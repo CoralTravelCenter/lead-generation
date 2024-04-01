@@ -10,9 +10,13 @@ export default defineConfig({
 				icon: 'https://vitejs.dev/logo.svg',
 				namespace: 'npm/vite-plugin-monkey',
 				match: [
-					'https://new.coral.ru/hotels/turkey/kleopatra-smile-hotel-alanya/?qp=gEIDPqjHDS6F9wLPRxSMEoBdG3JUI6hJr8oCDvQxUFwDnIQKuqeOWIKHKCXfJUOkLLqQWY5Vxm94mc1%2B%2BNn%2BKDObga5Fcs5QTQia666Sr39OwIKuAAlWHCHZRn7yFhSunTd8Jp6EZq%2FHOrjhYRKSzpa9YFt3u2aIF1t67LUjBy2jp%2BB7r8OiGseyijNs1L69zRwi1eCmwXy%2FK8g1uqV5ba1bTJ5DDoCNPYBj%2FG0H7qAOEnCWhZ2ysRiqC43XICjDuDseUBV87ogTmrvfdTP9XCMGmrngobCsFnTSHRIuutexU7IG3c5c8mvZ5sUGS7Sl&p=1&w=0&s=5&hlu=packagetours%2Fmoskva-to-turtsiya-tours&hlqp=gEIDPqjHDS6F9wLPRxSMEoBdG3JUI6hJr8oCDvQxUFwDnIQKuqeOWIKHKCXfJUOkLLqQWY5Vxm94mc1%20%20Nn%20KDObga5Fcs5QTQia666Sr39OwIKuAAlWHCHZRn7yFhSuVsWtwXw4luh7%20lQu942tJ9g0eOR%2F%20r2m6X%2FrOLpToQGR8dungERDAJtIq2O67JF4T%20zwtZPHApGhjQkhQRiQiG%20lETiwHb5Alo2VZQIUes1hrzOjG6FO0zn48zbPvubaiXOOvo2rHhlFDZuFwaNNtOLnHPwuVFprEYCQ%20zZsGpE%3D'
+					'https://new.coral.ru/hotels/turkey/kleopatra-smile-hotel-alanya/?qp=lWOJw1XDa14WeujkN6zDTsEo8K1rnZqbMpxcaqVYEbYo48fogE%2fWeAAarhFZrjbm6dz74xYsJBJPJLJI7ZmWb1C%2bNj%2bHc0De1y4fUzoPxgF85zRHBhzHspeC5vW6V5M6EQnu9mjC2AigQXojtw7FY8B30t9rRCf822KwKI8lBGQoiQ2iXVIfldL7LSROB6IKhiBp2QcZPcjtgTOztrqthRsZD7JRjRFmHA0jFQBKQDD0FXeS2myFcHacnd9UI%2fgodZb4seknMYBgUG4SUsAfK3hpGDKwwpKWlwLT9FtwaMV3KAs6C2OCKmEJMtv%2f2GBc&p=1&s=0'
 				],
 			},
 		}),
 	],
+	build: {
+		minify: 'terser', // Используйте 'terser' для минификации JS
+		cssCodeSplit: true, // Включите, если хотите минифицировать CSS
+	}
 });

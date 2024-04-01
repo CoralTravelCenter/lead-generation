@@ -2,6 +2,10 @@
 	display: none
 }
 
+.rightColumn:has(#hotelDetailSummaryCard) {
+	align-self: start;
+}
+
 .menu {
 	display: none !important
 }

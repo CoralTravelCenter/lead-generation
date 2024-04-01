@@ -21,10 +21,10 @@ export const sendFormData = async (formData, url1, url2) => {
 		// Создаем массив промисов для отправки данных на оба адреса
 		const requests = [fetch(url1, {
 			method: 'POST',
-			body: formData
+			body: JSON.stringify(formData)
 		}), fetch(url2, {
 			method: 'POST',
-			body: formData
+			body: JSON.stringify(formData)
 		})];
 
 		// Используем Promise.all для одновременной отправки данных
@@ -40,3 +40,4 @@ export const sendFormData = async (formData, url1, url2) => {
 		throw error;
 	}
 };
+

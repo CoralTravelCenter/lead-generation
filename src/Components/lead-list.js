@@ -8,6 +8,7 @@ export class LeadModule extends HTMLElement {
 		this.area = API_data.result.areaLookup;
 		this.agency = API_data.result.items;
 		this.metroStation = API_data.result.metroStationsLookup;
+		this.officeWithoutMetro = [];
 	}
 
 	groupedOfficeByAdress() {
@@ -17,6 +18,14 @@ export class LeadModule extends HTMLElement {
 					return item;
 				}
 			})
+		})
+	}
+
+	officeWithOutMetro() {
+		return this.agency.filter(item => {
+			if (item.metroStation.length === 0) {
+				return item;
+			}
 		})
 	}
 
@@ -54,7 +63,7 @@ export class LeadModule extends HTMLElement {
 										</p>
 									` : ''}
 									<button data-form="">Выбрать офис</button>
-								</div>	
+								</div>
 							</li>
 						`
 				}).join(' ')}
@@ -62,60 +71,87 @@ export class LeadModule extends HTMLElement {
 			`;
 			}).join(' ')
 		} else {
-			return this.agency.map(office => {
-				return `
-				<ul class="offices-list">
-					${(office.length > 0) ? office.map(item => {
-					return `
-							<li class='office' id='${item.id}'>
-								<div>
-									<h4 data-office-name>${item.lname}</h4>
-									<p data-office-addres>
-										<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 5L7.5 3L12.5 5L17.5 3L22.5 5V21L17.5 19L12.5 21L7.5 19L2.5 21V5Z" stroke="#0092D0" stroke-linejoin="round"></path><path d="M7.5 3V19" stroke="#0092D0"></path><path d="M17.5 3.5V19" stroke="#0092D0"></path><path d="M12.5 5V20.5" stroke="#0092D0"></path></svg>
-										${item.address}
-									</p>
-									<p data-office-phone>
-										<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M2 5.5C2 3.29086 3.79086 1.5 6 1.5H19C21.2091 1.5 23 3.29086 23 5.5V8C23 8.27614 22.7761 8.5 22.5 8.5H17.5C17.2239 8.5 17 8.27614 17 8V7C17 6.17157 16.3284 5.5 15.5 5.5H9.5C8.67157 5.5 8 6.17157 8 7V8C8 8.27614 7.77614 8.5 7.5 8.5H2.5C2.22386 8.5 2 8.27614 2 8V5.5ZM6 2.5C4.34315 2.5 3 3.84315 3 5.5V7.5H7V7C7 5.61929 8.11929 4.5 9.5 4.5H15.5C16.8807 4.5 18 5.61929 18 7V7.5H22V5.5C22 3.84315 20.6569 2.5 19 2.5H6Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M6.0301 10.8291C6.10196 10.6315 6.28975 10.5 6.5 10.5H18.5C18.7103 10.5 18.898 10.6315 18.9699 10.8291L20.9699 16.3291C20.9898 16.3839 21 16.4417 21 16.5V22C21 22.2761 20.7761 22.5 20.5 22.5H4.5C4.22386 22.5 4 22.2761 4 22V16.5C4 16.4417 4.01019 16.3839 4.0301 16.3291L6.0301 10.8291ZM6.85021 11.5L5 16.5881V21.5H20V16.5881L18.1498 11.5H6.85021Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M11 8V11H10V8H11Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M15 8V11H14V8H15Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M12.5 14.5C11.3954 14.5 10.5 15.3954 10.5 16.5C10.5 17.6046 11.3954 18.5 12.5 18.5C13.6046 18.5 14.5 17.6046 14.5 16.5C14.5 15.3954 13.6046 14.5 12.5 14.5ZM9.5 16.5C9.5 14.8431 10.8431 13.5 12.5 13.5C14.1569 13.5 15.5 14.8431 15.5 16.5C15.5 18.1569 14.1569 19.5 12.5 19.5C10.8431 19.5 9.5 18.1569 9.5 16.5Z" fill="#0092D0"></path></svg>
-										${item.phone1}
-									</p>				
-									<p data-office-mail>
-										<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.50024 7.5C3.2241 7.5 3.00024 7.72386 3.00024 8V18C3.00024 18.2761 3.2241 18.5 3.50024 18.5H19.9618C20.2379 18.5 20.4618 18.2761 20.4618 18V9.5H21.4618V18C21.4618 18.8284 20.7902 19.5 19.9618 19.5H3.50024C2.67182 19.5 2.00024 18.8284 2.00024 18V8C2.00024 7.17157 2.67182 6.5 3.50024 6.5H16.5002V7.5H3.50024Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M11.449 13.8761L2.67981 7.87609L3.24449 7.05078L11.7314 12.8576L17.424 8.96263L17.9887 9.78794L12.0137 13.8761C11.8435 13.9926 11.6193 13.9926 11.449 13.8761Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M14.3919 11.7227L21.315 18.6457L20.6079 19.3528L13.6848 12.4298L14.3919 11.7227Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M9.0695 11.7227L2.14643 18.6457L2.85353 19.3528L9.77661 12.4298L9.0695 11.7227Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M19.5002 4.5C18.1195 4.5 17.0002 5.61929 17.0002 7C17.0002 8.38071 18.1195 9.5 19.5002 9.5C20.881 9.5 22.0002 8.38071 22.0002 7C22.0002 5.61929 20.881 4.5 19.5002 4.5ZM16.0002 7C16.0002 5.067 17.5672 3.5 19.5002 3.5C21.4332 3.5 23.0002 5.067 23.0002 7C23.0002 8.933 21.4332 10.5 19.5002 10.5C17.5672 10.5 16.0002 8.933 16.0002 7Z" fill="#0092D0"></path></svg>
-										${item.email1}
-									</p>
-								</div>	
-							</li>
-						`
-					}).join(' ') : `	<li class='office' id='${office.id}'>
-						<div>
-							<h4 data-office-name>${office.lname}</h4>
-							<p data-office-addres>
-								<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 5L7.5 3L12.5 5L17.5 3L22.5 5V21L17.5 19L12.5 21L7.5 19L2.5 21V5Z" stroke="#0092D0" stroke-linejoin="round"></path><path d="M7.5 3V19" stroke="#0092D0"></path><path d="M17.5 3.5V19" stroke="#0092D0"></path><path d="M12.5 5V20.5" stroke="#0092D0"></path></svg>
-								${office.address}
-							</p>
-							<p data-office-phone>
-								<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M2 5.5C2 3.29086 3.79086 1.5 6 1.5H19C21.2091 1.5 23 3.29086 23 5.5V8C23 8.27614 22.7761 8.5 22.5 8.5H17.5C17.2239 8.5 17 8.27614 17 8V7C17 6.17157 16.3284 5.5 15.5 5.5H9.5C8.67157 5.5 8 6.17157 8 7V8C8 8.27614 7.77614 8.5 7.5 8.5H2.5C2.22386 8.5 2 8.27614 2 8V5.5ZM6 2.5C4.34315 2.5 3 3.84315 3 5.5V7.5H7V7C7 5.61929 8.11929 4.5 9.5 4.5H15.5C16.8807 4.5 18 5.61929 18 7V7.5H22V5.5C22 3.84315 20.6569 2.5 19 2.5H6Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M6.0301 10.8291C6.10196 10.6315 6.28975 10.5 6.5 10.5H18.5C18.7103 10.5 18.898 10.6315 18.9699 10.8291L20.9699 16.3291C20.9898 16.3839 21 16.4417 21 16.5V22C21 22.2761 20.7761 22.5 20.5 22.5H4.5C4.22386 22.5 4 22.2761 4 22V16.5C4 16.4417 4.01019 16.3839 4.0301 16.3291L6.0301 10.8291ZM6.85021 11.5L5 16.5881V21.5H20V16.5881L18.1498 11.5H6.85021Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M11 8V11H10V8H11Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M15 8V11H14V8H15Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M12.5 14.5C11.3954 14.5 10.5 15.3954 10.5 16.5C10.5 17.6046 11.3954 18.5 12.5 18.5C13.6046 18.5 14.5 17.6046 14.5 16.5C14.5 15.3954 13.6046 14.5 12.5 14.5ZM9.5 16.5C9.5 14.8431 10.8431 13.5 12.5 13.5C14.1569 13.5 15.5 14.8431 15.5 16.5C15.5 18.1569 14.1569 19.5 12.5 19.5C10.8431 19.5 9.5 18.1569 9.5 16.5Z" fill="#0092D0"></path></svg>
-								${office.phone1}
-							</p>				
-							<p data-office-mail>
-								<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.50024 7.5C3.2241 7.5 3.00024 7.72386 3.00024 8V18C3.00024 18.2761 3.2241 18.5 3.50024 18.5H19.9618C20.2379 18.5 20.4618 18.2761 20.4618 18V9.5H21.4618V18C21.4618 18.8284 20.7902 19.5 19.9618 19.5H3.50024C2.67182 19.5 2.00024 18.8284 2.00024 18V8C2.00024 7.17157 2.67182 6.5 3.50024 6.5H16.5002V7.5H3.50024Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M11.449 13.8761L2.67981 7.87609L3.24449 7.05078L11.7314 12.8576L17.424 8.96263L17.9887 9.78794L12.0137 13.8761C11.8435 13.9926 11.6193 13.9926 11.449 13.8761Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M14.3919 11.7227L21.315 18.6457L20.6079 19.3528L13.6848 12.4298L14.3919 11.7227Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M9.0695 11.7227L2.14643 18.6457L2.85353 19.3528L9.77661 12.4298L9.0695 11.7227Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M19.5002 4.5C18.1195 4.5 17.0002 5.61929 17.0002 7C17.0002 8.38071 18.1195 9.5 19.5002 9.5C20.881 9.5 22.0002 8.38071 22.0002 7C22.0002 5.61929 20.881 4.5 19.5002 4.5ZM16.0002 7C16.0002 5.067 17.5672 3.5 19.5002 3.5C21.4332 3.5 23.0002 5.067 23.0002 7C23.0002 8.933 21.4332 10.5 19.5002 10.5C17.5672 10.5 16.0002 8.933 16.0002 7Z" fill="#0092D0"></path></svg>
-								${office.email1}
-							</p>
-							<button data-form="">Выбрать офис</button>
-						</div>	
-					</li>`}
-				</ul>
-			`;
-
-			}).join('')
+			return null;
 		}
 	}
 
 	render() {
-		this.innerHTML = `
+		if (this.officeGeneration()) {
+			this.innerHTML = `
             <div class="lead-generator-result">
-                    ${this.officeGeneration()}                  
-            </div>  
+                    ${this.officeGeneration()}
+										<p>Оффисы без станций метро</p>
+				<ul class="offices-list">
+				${this.officeWithOutMetro().map(no_metro_item => {
+				return `
+												<li class="office" id='${no_metro_item.id}'>
+								<div>
+									<h4 data-office-name>${no_metro_item.lname}</h4>
+									${(no_metro_item.addres !== '') ? `
+										<p data-office-addres>
+										<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 5L7.5 3L12.5 5L17.5 3L22.5 5V21L17.5 19L12.5 21L7.5 19L2.5 21V5Z" stroke="#0092D0" stroke-linejoin="round"></path><path d="M7.5 3V19" stroke="#0092D0"></path><path d="M17.5 3.5V19" stroke="#0092D0"></path><path d="M12.5 5V20.5" stroke="#0092D0"></path></svg>
+										${no_metro_item.address}
+									</p>
+									` : ''}
+										<p data-office-phone>
+										<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M2 5.5C2 3.29086 3.79086 1.5 6 1.5H19C21.2091 1.5 23 3.29086 23 5.5V8C23 8.27614 22.7761 8.5 22.5 8.5H17.5C17.2239 8.5 17 8.27614 17 8V7C17 6.17157 16.3284 5.5 15.5 5.5H9.5C8.67157 5.5 8 6.17157 8 7V8C8 8.27614 7.77614 8.5 7.5 8.5H2.5C2.22386 8.5 2 8.27614 2 8V5.5ZM6 2.5C4.34315 2.5 3 3.84315 3 5.5V7.5H7V7C7 5.61929 8.11929 4.5 9.5 4.5H15.5C16.8807 4.5 18 5.61929 18 7V7.5H22V5.5C22 3.84315 20.6569 2.5 19 2.5H6Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M6.0301 10.8291C6.10196 10.6315 6.28975 10.5 6.5 10.5H18.5C18.7103 10.5 18.898 10.6315 18.9699 10.8291L20.9699 16.3291C20.9898 16.3839 21 16.4417 21 16.5V22C21 22.2761 20.7761 22.5 20.5 22.5H4.5C4.22386 22.5 4 22.2761 4 22V16.5C4 16.4417 4.01019 16.3839 4.0301 16.3291L6.0301 10.8291ZM6.85021 11.5L5 16.5881V21.5H20V16.5881L18.1498 11.5H6.85021Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M11 8V11H10V8H11Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M15 8V11H14V8H15Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M12.5 14.5C11.3954 14.5 10.5 15.3954 10.5 16.5C10.5 17.6046 11.3954 18.5 12.5 18.5C13.6046 18.5 14.5 17.6046 14.5 16.5C14.5 15.3954 13.6046 14.5 12.5 14.5ZM9.5 16.5C9.5 14.8431 10.8431 13.5 12.5 13.5C14.1569 13.5 15.5 14.8431 15.5 16.5C15.5 18.1569 14.1569 19.5 12.5 19.5C10.8431 19.5 9.5 18.1569 9.5 16.5Z" fill="#0092D0"></path></svg>
+										${
+
+					[no_metro_item.phone1, no_metro_item.phone2, no_metro_item.phone3].filter(value => value !== '').join(',')
+				}
+									</p>
+									${(no_metro_item.email1 !== '') ? `
+										<p data-office-mail>
+											<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.50024 7.5C3.2241 7.5 3.00024 7.72386 3.00024 8V18C3.00024 18.2761 3.2241 18.5 3.50024 18.5H19.9618C20.2379 18.5 20.4618 18.2761 20.4618 18V9.5H21.4618V18C21.4618 18.8284 20.7902 19.5 19.9618 19.5H3.50024C2.67182 19.5 2.00024 18.8284 2.00024 18V8C2.00024 7.17157 2.67182 6.5 3.50024 6.5H16.5002V7.5H3.50024Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M11.449 13.8761L2.67981 7.87609L3.24449 7.05078L11.7314 12.8576L17.424 8.96263L17.9887 9.78794L12.0137 13.8761C11.8435 13.9926 11.6193 13.9926 11.449 13.8761Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M14.3919 11.7227L21.315 18.6457L20.6079 19.3528L13.6848 12.4298L14.3919 11.7227Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M9.0695 11.7227L2.14643 18.6457L2.85353 19.3528L9.77661 12.4298L9.0695 11.7227Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M19.5002 4.5C18.1195 4.5 17.0002 5.61929 17.0002 7C17.0002 8.38071 18.1195 9.5 19.5002 9.5C20.881 9.5 22.0002 8.38071 22.0002 7C22.0002 5.61929 20.881 4.5 19.5002 4.5ZM16.0002 7C16.0002 5.067 17.5672 3.5 19.5002 3.5C21.4332 3.5 23.0002 5.067 23.0002 7C23.0002 8.933 21.4332 10.5 19.5002 10.5C17.5672 10.5 16.0002 8.933 16.0002 7Z" fill="#0092D0"></path></svg>
+											${no_metro_item.email1}
+										</p>
+									` : ''}
+									<button data-form="">Выбрать офис</button>
+								</div>
+							</li>
+						`
+			}).join('')}
+				</ul>
+            </div>
         `;
+		} else {
+			this.innerHTML = `
+	<div class="lead-generator-result">
+															<p>Оффисы без станций метро</p>
+				<ul class="offices-list">
+				${this.officeWithOutMetro().map(no_metro_item => {
+				return `
+												<li class="office" id='${no_metro_item.id}'>
+								<div>
+									<h4 data-office-name>${no_metro_item.lname}</h4>
+									${(no_metro_item.addres !== '') ? `
+										<p data-office-addres>
+										<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 5L7.5 3L12.5 5L17.5 3L22.5 5V21L17.5 19L12.5 21L7.5 19L2.5 21V5Z" stroke="#0092D0" stroke-linejoin="round"></path><path d="M7.5 3V19" stroke="#0092D0"></path><path d="M17.5 3.5V19" stroke="#0092D0"></path><path d="M12.5 5V20.5" stroke="#0092D0"></path></svg>
+										${no_metro_item.address}
+									</p>
+									` : ''}
+										<p data-office-phone>
+										<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M2 5.5C2 3.29086 3.79086 1.5 6 1.5H19C21.2091 1.5 23 3.29086 23 5.5V8C23 8.27614 22.7761 8.5 22.5 8.5H17.5C17.2239 8.5 17 8.27614 17 8V7C17 6.17157 16.3284 5.5 15.5 5.5H9.5C8.67157 5.5 8 6.17157 8 7V8C8 8.27614 7.77614 8.5 7.5 8.5H2.5C2.22386 8.5 2 8.27614 2 8V5.5ZM6 2.5C4.34315 2.5 3 3.84315 3 5.5V7.5H7V7C7 5.61929 8.11929 4.5 9.5 4.5H15.5C16.8807 4.5 18 5.61929 18 7V7.5H22V5.5C22 3.84315 20.6569 2.5 19 2.5H6Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M6.0301 10.8291C6.10196 10.6315 6.28975 10.5 6.5 10.5H18.5C18.7103 10.5 18.898 10.6315 18.9699 10.8291L20.9699 16.3291C20.9898 16.3839 21 16.4417 21 16.5V22C21 22.2761 20.7761 22.5 20.5 22.5H4.5C4.22386 22.5 4 22.2761 4 22V16.5C4 16.4417 4.01019 16.3839 4.0301 16.3291L6.0301 10.8291ZM6.85021 11.5L5 16.5881V21.5H20V16.5881L18.1498 11.5H6.85021Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M11 8V11H10V8H11Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M15 8V11H14V8H15Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M12.5 14.5C11.3954 14.5 10.5 15.3954 10.5 16.5C10.5 17.6046 11.3954 18.5 12.5 18.5C13.6046 18.5 14.5 17.6046 14.5 16.5C14.5 15.3954 13.6046 14.5 12.5 14.5ZM9.5 16.5C9.5 14.8431 10.8431 13.5 12.5 13.5C14.1569 13.5 15.5 14.8431 15.5 16.5C15.5 18.1569 14.1569 19.5 12.5 19.5C10.8431 19.5 9.5 18.1569 9.5 16.5Z" fill="#0092D0"></path></svg>
+										${
+
+					[no_metro_item.phone1, no_metro_item.phone2, no_metro_item.phone3].filter(value => value !== '').join(',')
+				}
+									</p>
+									${(no_metro_item.email1 !== '') ? `
+										<p data-office-mail>
+											<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.50024 7.5C3.2241 7.5 3.00024 7.72386 3.00024 8V18C3.00024 18.2761 3.2241 18.5 3.50024 18.5H19.9618C20.2379 18.5 20.4618 18.2761 20.4618 18V9.5H21.4618V18C21.4618 18.8284 20.7902 19.5 19.9618 19.5H3.50024C2.67182 19.5 2.00024 18.8284 2.00024 18V8C2.00024 7.17157 2.67182 6.5 3.50024 6.5H16.5002V7.5H3.50024Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M11.449 13.8761L2.67981 7.87609L3.24449 7.05078L11.7314 12.8576L17.424 8.96263L17.9887 9.78794L12.0137 13.8761C11.8435 13.9926 11.6193 13.9926 11.449 13.8761Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M14.3919 11.7227L21.315 18.6457L20.6079 19.3528L13.6848 12.4298L14.3919 11.7227Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M9.0695 11.7227L2.14643 18.6457L2.85353 19.3528L9.77661 12.4298L9.0695 11.7227Z" fill="#0092D0"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M19.5002 4.5C18.1195 4.5 17.0002 5.61929 17.0002 7C17.0002 8.38071 18.1195 9.5 19.5002 9.5C20.881 9.5 22.0002 8.38071 22.0002 7C22.0002 5.61929 20.881 4.5 19.5002 4.5ZM16.0002 7C16.0002 5.067 17.5672 3.5 19.5002 3.5C21.4332 3.5 23.0002 5.067 23.0002 7C23.0002 8.933 21.4332 10.5 19.5002 10.5C17.5672 10.5 16.0002 8.933 16.0002 7Z" fill="#0092D0"></path></svg>
+											${no_metro_item.email1}
+										</p>
+									` : ''}
+									<button data-form="">Выбрать офис</button>
+								</div>
+							</li>
+						`
+			}).join('')}
+				</ul>
+			</div>
+			`;
+		}
 	}
 
 	connectedCallback() {

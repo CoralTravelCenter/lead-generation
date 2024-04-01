@@ -16,3 +16,7 @@ export function jentelDeleteWhiteSpace(str) {
 export function deleteAllWhiteSpace(str) {
 	return str.replaceAll(' ', '');
 }
+
+export function removeTabs(str) {
+	return str.replace(/[\t\n]/g, '');
+}
