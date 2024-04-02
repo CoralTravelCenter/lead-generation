@@ -68,7 +68,7 @@ export class YandexMap extends HTMLElement {
 
 			clusterer.events.add('click', (e) => {
 				const cluster = e.get('target');
-				const bounds = cluster?.getBounds();
+				const bounds = cluster?.getBounds && cluster.getBounds();
 
 				if (bounds) {
 					my_map.setBounds(bounds, {
