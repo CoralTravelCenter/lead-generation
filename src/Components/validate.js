@@ -85,7 +85,7 @@ export function formValidate(form, reservationType, id, link) {
 			console.log('+++ app_req_params: %o', app_req_params);
 			console.log('+++ agreement_req_params: %o', agreement_req_params);
 
-			if (confirm('Ok to send?')) {
+			// if (confirm('Ok to send?')) {
 				var $SaveInfoForOffice = $.ajax('//apishar.coral.school/CoralCustomersInfo/Api/SaveInfoForOffice', {
 					method: 'POST',
 					contentType: 'application/json; charset=utf-8',
@@ -103,7 +103,7 @@ export function formValidate(form, reservationType, id, link) {
 					alert("Что-то пошло не так ;(\nПожалуста, попробуйте позже...");
 					// location.hash = '#_';
 				});
-			}
+			// }
 
 
 		} else {
