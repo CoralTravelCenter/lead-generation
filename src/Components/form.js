@@ -9,7 +9,8 @@ export class Form extends HTMLElement {
 		this.depart_from = this.searchCriteria.departureLocations[0].name;
 		this.begin_dates = this.searchCriteria.beginDates[0];
 		this.passengers = this.searchCriteria.roomCriterias[0].passengers.length;
-		this.nights = this.searchCriteria.nights;
+		// this.nights = this.searchCriteria.nights;
+		this.nights = this.searchCriteria.nights.map(n => n.value).join(',');
 		this.destination = this.searchCriteria.arrivalLocations[0].parent.name;
 		this.hotel_name = this.searchCriteria.arrivalLocations[0].name;
 		this.link = location.href;
@@ -23,17 +24,17 @@ export class Form extends HTMLElement {
         <h4 class="form-heading">Заявка на подбор тура</h4>
         <div class="addressee-grid">
             <div class="heading">Офис:</div>
-            <div class="value office-name">${this.office_obj.office}</div>
+            <div class="value office-name">${ this.office_obj.office }</div>
             <div class="heading">Адрес:</div>
-            <div class="value office-address">${this.office_obj.addres}</div>
-            ${(this.office_obj.email !== undefined) ? `
+            <div class="value office-address">${ this.office_obj.addres }</div>
+            ${ (this.office_obj.email !== undefined) ? `
                 <div class="heading">E-mail:</div>
-                <div class="value office-email">${this.office_obj.email}</div>
-            ` : ''}
-            ${(this.office_obj.phone !== undefined) ? `
+                <div class="value office-email">${ this.office_obj.email }</div>
+            ` : '' }
+            ${ (this.office_obj.phone !== undefined) ? `
                 <div class="heading">Телефоны</div>
-                <div class="value office-phone">${this.office_obj.phone}</div>
-            ` : ''}
+                <div class="value office-phone">${ this.office_obj.phone }</div>
+            ` : '' }
         </div>
         <form id="lead-form" autocomplete="off" novalidate method="post">
             <div class="form-field">
@@ -50,32 +51,32 @@ export class Form extends HTMLElement {
             </div>
             <div class="form-field">
                 <div class="label">Город вылета</div>
-                <input name="depart_from" type="text" value="${this.depart_from}"/>
+                <input name="depart_from" type="text" value="${ this.depart_from }"/>
             </div>
             <div class="form-field">
                 <div class="label">Направление</div>
-                <input name="destination_country" type="text" value='${this.destination}'/>
+                <input name="destination_country" type="text" value='${ this.destination }'/>
             </div>
             <div class="form-field">
                 <div class="label">Название отеля</div>
-                <input name="hotel" type="text" value='${this.hotel_name}'/>
+                <input name="hotel" type="text" value='${ this.hotel_name }'/>
             </div>
             <div class="form-field">
                 <div class="label">Желаемая дата вылета</div>
-                <input name="tour_date" type="text" value='${this.begin_dates}'/>
+                <input name="tour_date" type="text" value='${ this.begin_dates.split('-').reverse().join('/') }'/>
             </div>
             <div class="form-field">
                 <div class="label">Количество ночей</div>
-                <input name="tour_nights" type="text" value='${(this.nights.length > 0) ? this.nights.length : this.nights[0].value}'/>
+                <input name="tour_nights" type="text" value='${ this.nights }'/>
             </div>
             <div class="form-field">
                 <div class="label">Количество взрослых и детей</div>
-                <input name="pax" type="text" value='${this.passengers}'/>
+                <input name="pax" type="text" value='${ this.passengers }'/>
             </div>
             <div class="form-field">
                 <div class="label">Комментарий</div>
                 <textarea name="comments"></textarea>
-		</div>
+			</div>
             <div class="form-field required">
                 <div class="labeled-checkbox">
                     <label>

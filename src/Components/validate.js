@@ -1,11 +1,11 @@
 import Pristine from "pristinejs/dist/pristine";
-import {removeTabs} from "./utils.js";
-import {inputMask} from "./input-mask";
-import {sendFormData} from "./api.js";
-import {Thanks, Oops} from "./thanks.js";
+import { removeTabs } from "./utils.js";
+// import {inputMask} from "./input-mask";
+// import {sendFormData} from "./api.js";
+// import {Thanks, Oops} from "./thanks.js";
 
-const url_1 = 'apishar.coral.school/CoralCustomersInfo/Api/SaveInfoForOffice';
-const url_2 = 'https://apishar.coral.school/consents/api/accept';
+// const app_endpoint = '//apishar.coral.school/CoralCustomersInfo/Api/SaveInfoForOffice';
+// const agreement_endpoint = '//apishar.coral.school/consents/api/accept';
 
 Pristine.setLocale('ru');
 
@@ -29,13 +29,27 @@ export function formValidate(form, reservationType, id, link) {
 	const pristine = new Pristine(form, prestineConfig);
 
 	const tel_field = form.querySelector('input[data-tel-input]');
-	inputMask(tel_field);
+	// inputMask(tel_field);
+	$(tel_field).inputmask({ "mask": "+7 (999) 999-99-99", clearMaskOnLostFocus: false });
+	const tour_date_field = form.querySelector('[name="tour_date"]');
+	$(tour_date_field).inputmask({ mask: "99/99/9999", clearIncomplete: true, clearMaskOnLostFocus: false });
+
 
 	form.addEventListener('submit', (e) => {
 		e.preventDefault();
 		const isValide = pristine.validate();
 		if (isValide) {
-			const required_data = {
+			let phone_digits = form.querySelector('[name=phone]').value.replace(/\D/g,'');
+			let user_comment = form.querySelector('[name=comments]').value;
+			const comments = [];
+			if (user_comment) comments.push(user_comment);
+			comments.push(`Ссылка: ${ link }`);
+			let tour_date = $(tour_date_field).inputmask('unmaskedvalue');
+			if (tour_date) {
+				tour_date = tour_date.match(/(\d\d)(\d\d)(\d\d\d\d)/).slice(1, 4).reverse().join('-');
+			}
+
+			const app_req_params = {
 				"AgencyLocalName": document.querySelector('.addressee-grid .office-name').textContent,
 				"AgencyEmail": removeTabs(document.querySelector('.addressee-grid .office-email').textContent),
 				"AgencyPhone": removeTabs(document.querySelector('.addressee-grid .office-phone').textContent),
@@ -47,25 +61,50 @@ export function formValidate(form, reservationType, id, link) {
 				"HotelName": form.querySelector('[name=hotel]').value,
 				"NumberOfNights": form.querySelector('[name=tour_nights]').value,
 				"CountPeoples": form.querySelector('[name=pax]').value,
-				"Comment": `${form.querySelector('[name=comments]').value}, Ссылка: ${link}`,
+				"Comment": comments.join('; '),
 				"IsConsent": true,
 				"Email": removeTabs(form.querySelector('[name=email]').value),
-				"Phone": removeTabs(form.querySelector('[name=phone]').value),
+				// "Phone": removeTabs(form.querySelector('[name=phone]').value),
+				// "Phone": [...phone_digits].slice(-10).join(''),
+				"Phone": $(tel_field).inputmask('unmaskedvalue'),
 				"TypeReservation": `${(reservationType === 1) ? 'package' : 'onlyhotel'}`,
-				"DesiredDepartureDate": form.querySelector('[name=tour_date]').value,
-				"SourceLead string": true
+				"DesiredDepartureDate": tour_date,
+				"SourceLead": true
 			};
+			var agreement_req_params = {
+				FName: 		 form.querySelector('[name=fio]').value,
+				PhoneNumber: $(tel_field).inputmask('unmaskedvalue'),
+				Email:       removeTabs(form.querySelector('[name=email]').value),
+				IPLocation:  '',
+				FUrl:        "https://new.coral.ru/",
+				ProjectId:   13,
+				DocumentId:  42,
+				Confirm:     true,
+				FormPage:   "https://new.coral.ru/buy-in-office/"
+			};
+			console.log('+++ app_req_params: %o', app_req_params);
+			console.log('+++ agreement_req_params: %o', agreement_req_params);
 
-			console.log(required_data)
+			if (confirm('Ok to send?')) {
+				var $SaveInfoForOffice = $.ajax('//apishar.coral.school/CoralCustomersInfo/Api/SaveInfoForOffice', {
+					method: 'POST',
+					contentType: 'application/json; charset=utf-8',
+					data: JSON.stringify(app_req_params)
+				});
+				var $consentAccept = $.ajax('//apishar.coral.school/consents/api/accept', {
+					method: 'POST',
+					contentType: 'application/json; charset=utf-8',
+					data: JSON.stringify(agreement_req_params)
+				});
+				$.when($SaveInfoForOffice, $consentAccept).done(function () {
+					$(form).slideUp().siblings('.thanks').slideDown();
+				}).fail(function () {
+					console.log(arguments);
+					alert("Что-то пошло не так ;(\nПожалуста, попробуйте позже...");
+					// location.hash = '#_';
+				});
+			}
 
-			//            sendFormData(required_data, url_1, url_2).then(()=> {
-			//                document.querySelector('leed-form').style.display = 'none';
-			//                document.getElementById('lead-generation-app').append(new Thanks())
-			//            }).catch(err => {
-			//                document.querySelector('leed-form').style.display = 'none';
-			//                document.getElementById('lead-generation-app').append(new Oops());
-			//                console.error(err.message);
-			//            })
 
 		} else {
 			console.log('Форма не валидна!')
