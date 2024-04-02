@@ -47,7 +47,7 @@ export class YandexMap extends HTMLElement {
 				</div>`
 			);
 
-			const сluster_options = {
+			const cluster_options = {
 				clusterIcons: [
 					{
 						size: [40, 40],
@@ -63,7 +63,7 @@ export class YandexMap extends HTMLElement {
 				clusterBalloonPanelMaxMapArea: 0,
 				hasBalloon: false,
 				clusterIconColor: '#ff8663',
-				...сluster_options
+				...cluster_options
 			});
 
 			clusterer.events.add('click', (e) => {
