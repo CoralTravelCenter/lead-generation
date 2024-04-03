@@ -4,9 +4,18 @@ import {departure_JSON} from "../main.js";
 export class Form extends HTMLElement {
 	constructor(office_obj, search_params) {
 		super();
+
+		let departure_name;
+		if (this.searchCriteria?.departureLocations?.length) {
+			departure_name = this.searchCriteria.departureLocations[0].name;
+		} else {
+			const deps = JSON.parse(document.getElementById('__NEXT_DATA__').textContent).props.pageProps.meta.departures;
+			departure_name = deps.find(d => d.isCurrent).name;
+		}
+
 		this.office_obj = office_obj;
 		this.searchCriteria = search_params.result.searchCriterias;
-		this.depart_from = this.searchCriteria.departureLocations[0].name;
+		this.depart_from = departure_name;
 		this.begin_dates = this.searchCriteria.beginDates[0];
 		this.passengers = this.searchCriteria.roomCriterias[0].passengers.length;
 		// this.nights = this.searchCriteria.nights;
@@ -138,7 +147,9 @@ export class Form extends HTMLElement {
 		if (!this.rendered) {
 			this.render();
 			this.form = this.querySelector('#lead-form');
-			formValidate(this.form, this.searchCriteria.reservationType, this.office_obj.id, this.link);
+			console.log('=== this.searchCriteria: %o', this.searchCriteria);
+			// formValidate(this.form, this.searchCriteria.reservationType, this.office_obj.id, this.link);
+			formValidate(this.form, Number(new URLSearchParams(location.search).get('p')), this.office_obj.id, this.link);
 			this.closeForm();
 			this.rendered = true;
 		}

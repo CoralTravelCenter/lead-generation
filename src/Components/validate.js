@@ -67,7 +67,7 @@ export function formValidate(form, reservationType, id, link) {
 				// "Phone": removeTabs(form.querySelector('[name=phone]').value),
 				// "Phone": [...phone_digits].slice(-10).join(''),
 				"Phone": $(tel_field).inputmask('unmaskedvalue'),
-				"TypeReservation": `${(reservationType === 1) ? 'package' : 'onlyhotel'}`,
+				"TypeReservation": `${ (reservationType === 1) ? 'package' : 'hotel' }`,
 				"DesiredDepartureDate": tour_date,
 				"SourceLead": true
 			};
