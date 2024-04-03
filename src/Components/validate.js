@@ -85,25 +85,27 @@ export function formValidate(form, reservationType, id, link) {
 			console.log('+++ app_req_params: %o', app_req_params);
 			console.log('+++ agreement_req_params: %o', agreement_req_params);
 
-			// if (confirm('Ok to send?')) {
-				var $SaveInfoForOffice = $.ajax('//apishar.coral.school/CoralCustomersInfo/Api/SaveInfoForOffice', {
-					method: 'POST',
-					contentType: 'application/json; charset=utf-8',
-					data: JSON.stringify(app_req_params)
-				});
-				var $consentAccept = $.ajax('//apishar.coral.school/consents/api/accept', {
-					method: 'POST',
-					contentType: 'application/json; charset=utf-8',
-					data: JSON.stringify(agreement_req_params)
-				});
-				$.when($SaveInfoForOffice, $consentAccept).done(function () {
-					$(form).slideUp().siblings('.thanks').slideDown();
-				}).fail(function () {
-					console.log(arguments);
-					alert("Что-то пошло не так ;(\nПожалуста, попробуйте позже...");
-					// location.hash = '#_';
-				});
-			// }
+			form.classList.add('in-progress');
+
+			var $SaveInfoForOffice = $.ajax('//apishar.coral.school/CoralCustomersInfo/Api/SaveInfoForOffice', {
+				method: 'POST',
+				contentType: 'application/json; charset=utf-8',
+				data: JSON.stringify(app_req_params)
+			});
+			var $consentAccept = $.ajax('//apishar.coral.school/consents/api/accept', {
+				method: 'POST',
+				contentType: 'application/json; charset=utf-8',
+				data: JSON.stringify(agreement_req_params)
+			});
+			$.when($SaveInfoForOffice, $consentAccept).done(function () {
+				$(form).slideUp().siblings('.thanks').slideDown();
+				form.classList.remove('in-progress');
+			}).fail(function () {
+				console.log(arguments);
+				alert("Что-то пошло не так ;(\nПожалуста, попробуйте позже...");
+				form.classList.remove('in-progress');
+				// location.hash = '#_';
+			});
 
 
 		} else {

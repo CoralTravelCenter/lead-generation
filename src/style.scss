@@ -620,3 +620,14 @@ oops-block {
 		}
 	}
 }
+
+#app-form form {
+	position: relative;
+}
+#app-form form.in-progress:before {
+	content: '';
+	position: absolute;
+	inset: -1em;
+	background: rgba(255, 255, 255, .5);
+	backdrop-filter: blur(2px);
+}
