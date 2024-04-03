@@ -43,7 +43,8 @@ createAnchor()
 const APP_WRAPPER = document.createElement("div");
 const H2 = document.createElement('h2');
 H2.className = 'B2CHeading where-to-buy';
-H2.textContent = 'Где купить?';
+// H2.textContent = 'Где купить?';
+H2.textContent = 'Для отправки заявки выберите офис';
 APP_WRAPPER.id = "lead-generation-app";
 
 export function takeDataFromOffice() {
