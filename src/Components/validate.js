@@ -1,11 +1,5 @@
 import Pristine from "pristinejs/dist/pristine";
 import { removeTabs } from "./utils.js";
-// import {inputMask} from "./input-mask";
-// import {sendFormData} from "./api.js";
-// import {Thanks, Oops} from "./thanks.js";
-
-// const app_endpoint = '//apishar.coral.school/CoralCustomersInfo/Api/SaveInfoForOffice';
-// const agreement_endpoint = '//apishar.coral.school/consents/api/accept';
 
 Pristine.setLocale('ru');
 

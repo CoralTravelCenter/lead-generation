@@ -1,6 +1,3 @@
-import {getData} from "./api.js";
-import {API_URL_WHERE_TO_BUY} from "../main.js";
-
 export class LeadModule extends HTMLElement {
 	constructor(API_data) {
 		super();

@@ -1,5 +1,4 @@
 import {formValidate} from "./validate";
-import {departure_JSON} from "../main.js";
 
 export class Form extends HTMLElement {
 	constructor(office_obj, search_params) {
@@ -58,6 +57,8 @@ export class Form extends HTMLElement {
                 <div class="label">Номер телефона</div>
                 <input name="phone" type="tel" required data-tel-input data-pristine-required-message="Это поле обязательно для заполнения"/>
             </div>
+            <details>
+            <summary>Параметры вашего тура</summary>
             <div class="form-field">
                 <div class="label">Город вылета</div>
                 <input name="depart_from" type="text" value="${ this.depart_from }"/>
@@ -82,6 +83,7 @@ export class Form extends HTMLElement {
                 <div class="label">Количество взрослых и детей</div>
                 <input name="pax" type="text" value='${ this.passengers }'/>
             </div>
+            </details>                                                           
             <div class="form-field">
                 <div class="label">Комментарий</div>
                 <textarea name="comments"></textarea>
