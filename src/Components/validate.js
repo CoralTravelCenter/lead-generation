@@ -1,5 +1,5 @@
 import Pristine from "pristinejs/dist/pristine";
-import { removeTabs } from "./utils.js";
+import {removeTabs} from "./utils.js";
 
 Pristine.setLocale('ru');
 
@@ -24,20 +24,20 @@ export function formValidate(form, reservationType, id, link) {
 
 	const tel_field = form.querySelector('input[data-tel-input]');
 	// inputMask(tel_field);
-	$(tel_field).inputmask({ "mask": "+7 (999) 999-99-99", clearMaskOnLostFocus: false });
+	$(tel_field).inputmask({"mask": "+7 (999) 999-99-99", clearMaskOnLostFocus: false});
 	const tour_date_field = form.querySelector('[name="tour_date"]');
-	$(tour_date_field).inputmask({ mask: "99/99/9999", clearIncomplete: true, clearMaskOnLostFocus: false });
+	$(tour_date_field).inputmask({mask: "99/99/9999", clearIncomplete: true, clearMaskOnLostFocus: false});
 
 
 	form.addEventListener('submit', (e) => {
 		e.preventDefault();
 		const isValide = pristine.validate();
 		if (isValide) {
-			let phone_digits = form.querySelector('[name=phone]').value.replace(/\D/g,'');
+			let phone_digits = form.querySelector('[name=phone]').value.replace(/\D/g, '');
 			let user_comment = form.querySelector('[name=comments]').value;
 			const comments = [];
 			if (user_comment) comments.push(user_comment);
-			comments.push(`Ссылка: ${ link }`);
+			comments.push(`Ссылка: ${link}`);
 			let tour_date = $(tour_date_field).inputmask('unmaskedvalue');
 			if (tour_date) {
 				tour_date = tour_date.match(/(\d\d)(\d\d)(\d\d\d\d)/).slice(1, 4).reverse().join('-');
@@ -61,20 +61,20 @@ export function formValidate(form, reservationType, id, link) {
 				// "Phone": removeTabs(form.querySelector('[name=phone]').value),
 				// "Phone": [...phone_digits].slice(-10).join(''),
 				"Phone": $(tel_field).inputmask('unmaskedvalue'),
-				"TypeReservation": `${ (reservationType === 1) ? 'package' : 'hotel' }`,
+				"TypeReservation": `${(reservationType === 1) ? 'package' : 'hotel'}`,
 				"DesiredDepartureDate": tour_date,
 				"SourceLead": true
 			};
 			var agreement_req_params = {
-				FName: 		 form.querySelector('[name=fio]').value,
+				FName: form.querySelector('[name=fio]').value,
 				PhoneNumber: $(tel_field).inputmask('unmaskedvalue'),
-				Email:       removeTabs(form.querySelector('[name=email]').value),
-				IPLocation:  '',
-				FUrl:        "https://new.coral.ru/",
-				ProjectId:   13,
-				DocumentId:  42,
-				Confirm:     true,
-				FormPage:   "https://new.coral.ru/buy-in-office/"
+				Email: removeTabs(form.querySelector('[name=email]').value),
+				IPLocation: '',
+				FUrl: "https://new.coral.ru/",
+				ProjectId: 13,
+				DocumentId: 42,
+				Confirm: true,
+				FormPage: "https://new.coral.ru/buy-in-office/"
 			};
 			console.log('+++ app_req_params: %o', app_req_params);
 			console.log('+++ agreement_req_params: %o', agreement_req_params);
@@ -101,7 +101,7 @@ export function formValidate(form, reservationType, id, link) {
 				// location.hash = '#_';
 			});
 
-
+			ym(96674199, 'reachGoal', 'misha_second')
 		} else {
 			console.log('Форма не валидна!')
 		}

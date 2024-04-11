@@ -32,17 +32,17 @@ export class Form extends HTMLElement {
         <h4 class="form-heading">Заявка на подбор тура</h4>
         <div class="addressee-grid">
             <div class="heading">Офис:</div>
-            <div class="value office-name">${ this.office_obj.office }</div>
+            <div class="value office-name">${this.office_obj.office}</div>
             <div class="heading">Адрес:</div>
-            <div class="value office-address">${ this.office_obj.addres }</div>
-            ${ (this.office_obj.email !== undefined) ? `
+            <div class="value office-address">${this.office_obj.addres}</div>
+            ${(this.office_obj.email !== undefined) ? `
                 <div class="heading">E-mail:</div>
-                <div class="value office-email">${ this.office_obj.email }</div>
-            ` : '' }
-            ${ (this.office_obj.phone !== undefined) ? `
+                <div class="value office-email">${this.office_obj.email}</div>
+            ` : ''}
+            ${(this.office_obj.phone !== undefined) ? `
                 <div class="heading">Телефоны</div>
-                <div class="value office-phone">${ this.office_obj.phone }</div>
-            ` : '' }
+                <div class="value office-phone">${this.office_obj.phone}</div>
+            ` : ''}
         </div>
         <form id="lead-form" autocomplete="off" novalidate method="post">
             <div class="form-field">
@@ -61,27 +61,27 @@ export class Form extends HTMLElement {
             <summary>Параметры вашего тура</summary>
             <div class="form-field">
                 <div class="label">Город вылета</div>
-                <input name="depart_from" type="text" value="${ this.depart_from }"/>
+                <input name="depart_from" type="text" value="${this.depart_from}"/>
             </div>
             <div class="form-field">
                 <div class="label">Направление</div>
-                <input name="destination_country" type="text" value='${ this.destination }'/>
+                <input name="destination_country" type="text" value='${this.destination}'/>
             </div>
             <div class="form-field">
                 <div class="label">Название отеля</div>
-                <input name="hotel" type="text" value='${ this.hotel_name }'/>
+                <input name="hotel" type="text" value='${this.hotel_name}'/>
             </div>
             <div class="form-field">
                 <div class="label">Желаемая дата вылета</div>
-                <input name="tour_date" type="text" value='${ this.begin_dates.split('-').reverse().join('/') }'/>
+                <input name="tour_date" type="text" value='${this.begin_dates.split('-').reverse().join('/')}'/>
             </div>
             <div class="form-field">
                 <div class="label">Количество ночей</div>
-                <input name="tour_nights" type="text" value='${ this.nights }'/>
+                <input name="tour_nights" type="text" value='${this.nights}'/>
             </div>
             <div class="form-field">
                 <div class="label">Количество взрослых и детей</div>
-                <input name="pax" type="text" value='${ this.passengers }'/>
+                <input name="pax" type="text" value='${this.passengers}'/>
             </div>
             </details>                                                           
             <div class="form-field">
@@ -123,6 +123,7 @@ export class Form extends HTMLElement {
 </div>
 		`;
 		document.body.style.overflow = 'hidden';
+
 	}
 
 	closeForm() {
@@ -148,12 +149,14 @@ export class Form extends HTMLElement {
 	connectedCallback() {
 		if (!this.rendered) {
 			this.render();
+			this.rendered = true;
 			this.form = this.querySelector('#lead-form');
 			console.log('=== this.searchCriteria: %o', this.searchCriteria);
-			// formValidate(this.form, this.searchCriteria.reservationType, this.office_obj.id, this.link);
 			formValidate(this.form, Number(new URLSearchParams(location.search).get('p')), this.office_obj.id, this.link);
 			this.closeForm();
-			this.rendered = true;
+			this.querySelector('[name="fio"]').addEventListener('change', () => {
+				ym(96674199, 'reachGoal', 'misha_first')
+			}, {once: true})
 		}
 	}
 }
